@@ -36,3 +36,4 @@ EXECUTION_URL=$(aws codepipeline get-pipeline-state --name backoffice-app-produc
 
 rm -rf ~/.aws
 
+echo "::set-output name=codedeploy_url::$EXECUTION_URL"
