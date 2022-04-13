@@ -1,6 +1,9 @@
 name: "Get codedeploy url from codepipeline"
 description: "."
 author: "d-beezee"
+outputs:
+  codedeploy_ur:
+    description: 'The url of the codedeploy execution'
 runs:
   using: docker
   image: Dockerfile
