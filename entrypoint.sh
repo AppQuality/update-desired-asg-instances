@@ -32,7 +32,7 @@ echo "[default]
 aws_access_key_id = ${AWS_ACCESS_KEY_ID}
 aws_secret_access_key = ${AWS_SECRET_ACCESS_KEY}" > ~/.aws/credentials
 
-EXECUTION_URL=$(aws codepipeline get-pipeline-state --name backoffice-app-production-code-pipeline | jq -r '.stageStates[] | select(.stageName=="Deploy") | .actionStates[] | select(.actionName=="ApplicationDeploy") | .latestExecution.externalExecutionUrl')
+EXECUTION_URL=$(aws codepipeline get-pipeline-state --name ${PIPELINE_NAME} | jq -r '.stageStates[] | select(.stageName=="Deploy") | .actionStates[] | select(.actionName=="ApplicationDeploy") | .latestExecution.externalExecutionUrl')
 
 rm -rf ~/.aws
 
