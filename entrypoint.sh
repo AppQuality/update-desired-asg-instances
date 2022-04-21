@@ -1,4 +1,4 @@
-#!/bin/sh 
+#!/bin/sh
 
 set -e
 
@@ -32,8 +32,12 @@ echo "[default]
 aws_access_key_id = ${AWS_ACCESS_KEY_ID}
 aws_secret_access_key = ${AWS_SECRET_ACCESS_KEY}" > ~/.aws/credentials
 
-EXECUTION_URL=$(aws codepipeline get-pipeline-state --name ${PIPELINE_NAME} | jq -r '.stageStates[] | select(.stageName=="Deploy") | .actionStates[] | select(.actionName=="ApplicationDeploy") | .latestExecution.externalExecutionUrl')
+aws autoscaling   update-auto-scaling-group  --auto-scaling-group-name $ASG_NAME --desired-capacity $CAPACITY --max-size $CAPACITY
 
+CURRENT_CAPACITY=0
+while [ "$CURRENT_CAPACITY" != "$CAPACITY" ]; do
+    CURRENT_CAPACITY=$(aws autoscaling   describe-auto-scaling-groups  --auto-scaling-group-name $ASG_NAME | jq  '.AutoScalingGroups[0] | [.Instances[] | select(.HealthStatus == "Healthy")] | length')
+    echo "Current capacity: $CURRENT_CAPACITY"
+    sleep 5
+done
 rm -rf ~/.aws
-
-echo "::set-output name=codedeploy_url::$EXECUTION_URL"
