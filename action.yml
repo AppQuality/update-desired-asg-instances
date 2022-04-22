@@ -1,6 +1,13 @@
 name: "Update autoscaling group capacity"
 description: "."
 author: "d-beezee"
+outputs:
+  original_max:
+    description: "The original max instances for the asg"
+  original_min:
+    description: "The original min instances for the asg"
+  original_desired:
+    description: "The original desired instances for the asg"
 runs:
   using: docker
   image: Dockerfile
