@@ -29,4 +29,4 @@ rm -rf ~/.aws
 
 echo "::set-output name=original_max::$ORIGINAL_MAX"
 echo "::set-output name=original_min::$ORIGINAL_MIN"
-echo "::set-output name=original_desired::$ORIGINAL_DESIRED"
+echo "::set-output name=original_desired::$ORIGINAL_CAPACITY"
