@@ -21,9 +21,9 @@ ORIGINAL_CAPACITY=$(echo $CURRENT_STATUS | jq -r  '.DesiredCapacity')
 aws autoscaling   update-auto-scaling-group  --auto-scaling-group-name $ASG_NAME --desired-capacity $DESIRED_INSTANCES --max-size $MAX_INSTANCES
 CURRENT_CAPACITY="$ORIGINAL_CAPACITY"
 while [ "$CURRENT_CAPACITY" != "$DESIRED_INSTANCES" ]; do
-    CURRENT_CAPACITY=$(aws autoscaling   describe-auto-scaling-groups  --auto-scaling-group-name $ASG_NAME | jq  '.AutoScalingGroups[0] | [.Instances[] | select(.HealthStatus == "Healthy")] | length')
-    echo "Current capacity: $CURRENT_CAPACITY"
     sleep 5
+    CURRENT_CAPACITY=$(aws autoscaling   describe-auto-scaling-groups  --auto-scaling-group-name $ASG_NAME | jq  '.AutoScalingGroups[0] | [.Instances[] | select(.HealthStatus == "Healthy" and .LifecycleState == "InService")] | length')
+    echo "Current capacity: $CURRENT_CAPACITY"
 done
 rm -rf ~/.aws
 
