@@ -18,7 +18,7 @@ ORIGINAL_MIN=$(echo $CURRENT_STATUS | jq -r  '.MinSize')
 ORIGINAL_CAPACITY=$(echo $CURRENT_STATUS | jq -r  '.DesiredCapacity')
 
 
-aws autoscaling   update-auto-scaling-group  --auto-scaling-group-name $ASG_NAME --desired-capacity $CAPACITY --max-size $CAPACITY
+aws autoscaling   update-auto-scaling-group  --auto-scaling-group-name $ASG_NAME --desired-capacity $DESIRED_INSTANCES --max-size $MAX_INSTANCES
 CURRENT_CAPACITY="$ORIGINAL_CAPACITY"
 while [ "$CURRENT_CAPACITY" != "$CAPACITY" ]; do
     CURRENT_CAPACITY=$(aws autoscaling   describe-auto-scaling-groups  --auto-scaling-group-name $ASG_NAME | jq  '.AutoScalingGroups[0] | [.Instances[] | select(.HealthStatus == "Healthy")] | length')
