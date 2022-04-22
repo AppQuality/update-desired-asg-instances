@@ -6,6 +6,10 @@ set -e
 mkdir -p ~/.aws
 
 touch ~/.aws/credentials
+touch ~/.aws/config
+
+echo "[default]
+region = ${AWS_REGION}" > ~/.aws/config
 
 echo "[default]
 aws_access_key_id = ${AWS_ACCESS_KEY_ID}
